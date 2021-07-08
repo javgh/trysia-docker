@@ -1,0 +1,18 @@
+diff --git a/modules/renter/worker.go b/modules/renter/worker.go
+index 59ee6160c..37227d270 100644
+--- a/modules/renter/worker.go
++++ b/modules/renter/worker.go
+@@ -217,11 +217,11 @@ func (r *Renter) newWorker(hostPubKey types.SiaPublicKey) (*worker, error) {
+ 		return nil, errors.AddContext(err, "could not open account")
+ 	}
+ 
+-	// set the balance target to 1SC
++	// set the balance target to 0.05 SC
+ 	//
+ 	// TODO: check that the balance target  makes sense in function of the
+ 	// amount of MDM programs it can run with that amount of money
+-	balanceTarget := types.SiacoinPrecision
++	balanceTarget := types.SiacoinPrecision.Div64(20)
+ 	if r.deps.Disrupt("DisableFunding") {
+ 		balanceTarget = types.ZeroCurrency
+ 	}

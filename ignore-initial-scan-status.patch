@@ -1,0 +1,22 @@
+diff --git a/modules/renter/hostdb/randomhosts.go b/modules/renter/hostdb/randomhosts.go
+index eeb0ece59..62d95915b 100644
+--- a/modules/renter/hostdb/randomhosts.go
++++ b/modules/renter/hostdb/randomhosts.go
+@@ -14,7 +14,7 @@ import (
+ // addressBlacklist is ignored.
+ func (hdb *HostDB) RandomHosts(n int, blacklist, addressBlacklist []types.SiaPublicKey) ([]modules.HostDBEntry, error) {
+ 	hdb.mu.RLock()
+-	initialScanComplete := hdb.initialScanComplete
++	initialScanComplete := true // override for demo
+ 	ipCheckDisabled := hdb.disableIPViolationCheck
+ 	hdb.mu.RUnlock()
+ 	if !initialScanComplete {
+@@ -31,7 +31,7 @@ func (hdb *HostDB) RandomHosts(n int, blacklist, addressBlacklist []types.SiaPub
+ // should be used with caution.
+ func (hdb *HostDB) RandomHostsWithAllowance(n int, blacklist, addressBlacklist []types.SiaPublicKey, allowance modules.Allowance) ([]modules.HostDBEntry, error) {
+ 	hdb.mu.RLock()
+-	initialScanComplete := hdb.initialScanComplete
++	initialScanComplete := true // override for demo
+ 	filteredHosts := hdb.filteredHosts
+ 	filterType := hdb.filterMode
+ 	hdb.mu.RUnlock()

@@ -1,0 +1,16 @@
+diff --git a/modules/renter/contractor/contractmaintenance.go b/modules/renter/contractor/contractmaintenance.go
+index 2730e40f0..b04215026 100644
+--- a/modules/renter/contractor/contractmaintenance.go
++++ b/modules/renter/contractor/contractmaintenance.go
+@@ -993,11 +993,6 @@ func (c *Contractor) threadedContractMaintenance() {
+ 	}
+ 	defer c.tg.Done()
+ 
+-	// No contract maintenance unless contractor is synced.
+-	if !c.managedSynced() {
+-		c.log.Debugln("Skipping contract maintenance since consensus isn't synced yet")
+-		return
+-	}
+ 	c.log.Debugln("starting contract maintenance")
+ 
+ 	// Only one instance of this thread should be running at a time. Under
