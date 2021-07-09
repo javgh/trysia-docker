@@ -13,6 +13,7 @@ let
       leaveDotGit = true;
     };
 
+    deleteVendor = true;
     goDeps = ./deps.nix;  # create with vgo2nix in Sia repository
 
     buildPhase = ''
@@ -46,6 +47,7 @@ let
       leaveDotGit = true;
     };
 
+    deleteVendor = true;
     goDeps = ./deps.nix;  # create with vgo2nix in Sia repository
 
     buildPhase = ''
@@ -70,10 +72,9 @@ let
   sia-bootstrap = pkgs.buildGoModule rec {
     name = "sia-bootstrap-${version}";
     version = "0.0.1";
-    goPackagePath = "github.com/javgh/sia-bootstrap";
 
     src = pkgs.fetchgit {
-      url = "https://${goPackagePath}";
+      url = "https://github.com/javgh/sia-bootstrap";
       rev = "4ad6d55813858209420e47b75745568e8ae70b41";
       sha256 = "1prbgyrr944acdnrf2jkpsxmygqp71zy6nxrgxpmaciincad5apf";
     };
