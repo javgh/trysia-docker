@@ -16,7 +16,7 @@ import (
 const (
 	initialWait        = 30 * time.Second
 	retryInterval      = 120 * time.Second
-	defaultAllowance   = 30 // SC
+	defaultAllowance   = 54 // SC
 	configFileTemplate = "%s/trysia/allowance"
 )
 
