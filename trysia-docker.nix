@@ -1,29 +1,30 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  sia = pkgs.buildGoPackage rec {
+  sia = pkgs.buildGoModule rec {
     name = "sia-${version}";
-    version = "1.5.5";
-    goPackagePath = "gitlab.com/NebulousLabs/Sia";
+    version = "1.5.7";
 
     src = pkgs.fetchgit {
-      url = "https://${goPackagePath}";
+      url = "https://github.com/SiaFoundation/siad";
       rev = "refs/tags/v${version}";
-      sha256 = "1gl4gcg3z8r4mnpkgrmavrc0vk7iryq8vlm0jrpf2nlz8s2095gy";
+      sha256 = "0c26v4ixk40brk5wpb4ks3qhpk2ja1na5j9l31a9qkv0gcf5kkqa";
       leaveDotGit = true;
     };
 
-    deleteVendor = true;
-    goDeps = ./deps.nix;  # create with vgo2nix in Sia repository
+    vendorSha256 = "0km8050xv6iy9y0wpxb23fi82w3jiwvc8l49gnhcv0bhpm3lch2w";
 
+    patches = [
+      ./force-contract-maintenance.patch
+      ./ignore-initial-scan-status.patch
+      ./small-ephemeral-accounts
+    ];
+
+    buildInputs = [pkgs.git];
     buildPhase = ''
-      cd ./go/src/gitlab.com/NebulousLabs/Sia
       # We just did a clean checkout, but the Makefile will
       # not recognize this correctly, so clear GIT_DIRTY manually.
       sed -i 's/^GIT_DIRTY=.*$/GIT_DIRTY=/' Makefile
-      patch -p1 < ${./force-contract-maintenance.patch}
-      patch -p1 < ${./ignore-initial-scan-status.patch}
-      patch -p1 < ${./small-ephemeral-accounts}
       export PATH=$PATH:${pkgs.git}/bin
       make
     '';
@@ -35,29 +36,30 @@ let
     };
   };
 
-  sia-debug = pkgs.buildGoPackage rec {
+  sia-debug = pkgs.buildGoModule rec {
     name = "sia-${version}";
-    version = "1.5.5";
-    goPackagePath = "gitlab.com/NebulousLabs/Sia";
+    version = "1.5.7";
 
     src = pkgs.fetchgit {
-      url = "https://${goPackagePath}";
+      url = "https://github.com/SiaFoundation/siad";
       rev = "refs/tags/v${version}";
-      sha256 = "1gl4gcg3z8r4mnpkgrmavrc0vk7iryq8vlm0jrpf2nlz8s2095gy";
+      sha256 = "0c26v4ixk40brk5wpb4ks3qhpk2ja1na5j9l31a9qkv0gcf5kkqa";
       leaveDotGit = true;
     };
 
-    deleteVendor = true;
-    goDeps = ./deps.nix;  # create with vgo2nix in Sia repository
+    vendorSha256 = "0km8050xv6iy9y0wpxb23fi82w3jiwvc8l49gnhcv0bhpm3lch2w";
 
+    patches = [
+      ./force-contract-maintenance.patch
+      ./ignore-initial-scan-status.patch
+      ./small-ephemeral-accounts
+    ];
+
+    buildInputs = [pkgs.git];
     buildPhase = ''
-      cd ./go/src/gitlab.com/NebulousLabs/Sia
       # We just did a clean checkout, but the Makefile will
       # not recognize this correctly, so clear GIT_DIRTY manually.
       sed -i 's/^GIT_DIRTY=.*$/GIT_DIRTY=/' Makefile
-      patch -p1 < ${./force-contract-maintenance.patch}
-      patch -p1 < ${./ignore-initial-scan-status.patch}
-      patch -p1 < ${./small-ephemeral-accounts}
       export PATH=$PATH:${pkgs.git}/bin
       make debug
     '';
