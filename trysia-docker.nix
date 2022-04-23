@@ -8,7 +8,7 @@ let
     src = pkgs.fetchgit {
       url = "https://github.com/SiaFoundation/siad";
       rev = "refs/tags/v${version}";
-      sha256 = "0c26v4ixk40brk5wpb4ks3qhpk2ja1na5j9l31a9qkv0gcf5kkqa";
+      sha256 = "0b6y96rja5xv2v59qgl6s5xs664m77zs00kc3b740v5ww22w8xx4";
       leaveDotGit = true;
     };
 
@@ -43,7 +43,7 @@ let
     src = pkgs.fetchgit {
       url = "https://github.com/SiaFoundation/siad";
       rev = "refs/tags/v${version}";
-      sha256 = "0c26v4ixk40brk5wpb4ks3qhpk2ja1na5j9l31a9qkv0gcf5kkqa";
+      sha256 = "0b6y96rja5xv2v59qgl6s5xs664m77zs00kc3b740v5ww22w8xx4";
       leaveDotGit = true;
     };
 
@@ -107,9 +107,9 @@ let
     mkdir -p /renter
     mkdir -p /gateway
     if [ ! -e /consensus/consensus.db ]; then
-      curl http://135.181.164.108:8081/consensus.db -o /consensus/consensus.db
-      curl http://135.181.164.108:8081/hostdb.json -o /renter/hostdb.json
-      curl http://135.181.164.108:8081/nodes.json -o /gateway/nodes.json
+      curl http://78.159.112.217:8081/consensus.db -o /consensus/consensus.db
+      curl http://78.159.112.217:8081/hostdb.json -o /renter/hostdb.json
+      curl http://78.159.112.217:8081/nodes.json -o /gateway/nodes.json
     fi
     if [ -e /DEBUG ]; then
       exec ${sia-debug}/bin/siad -M gctwr --api-addr "0.0.0.0:9980" --disable-api-security
